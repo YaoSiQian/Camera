@@ -1,0 +1,5 @@
+name: Camera
+version: '${project.version}'
+main: cn.yaosiqian.camera.Camera
+authors: [YaoSiQian]
+description: Taking photos.
