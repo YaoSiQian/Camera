@@ -19,12 +19,12 @@ public class CameraCommands implements CommandExecutor {
         }
         Player p = (Player) sender;
 
-        if (cmd.getName().equalsIgnoreCase("takepicture")) {
+        if (cmd.getName().equalsIgnoreCase("photo")) {
             if(instance.getConfig().getBoolean("settings.camera.permissions")) {
                 if(!p.hasPermission("cameras.command")) return false;
             }
 
-            Picture.takePicture(p);
+            Picture.photo(p);
             return true;
         }
 

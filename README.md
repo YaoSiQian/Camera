@@ -25,7 +25,7 @@ Modified from [Cup0fCode/Cameras](https://github.com/Cup0fCode/Cameras)
 
 2. 指令
 
-  /takepicture（需要OP）
+  /photo（需要OP）
 
 ## 展示图片
 

@@ -53,7 +53,7 @@ public class CameraClick implements Listener {
             return;
         }
         if (p.getInventory().contains(Material.PAPER)) { //check to make sure the player has paper
-            boolean tookPicture = Picture.takePicture(p);
+            boolean tookPicture = Picture.photo(p);
 
             if(tookPicture) {
                 p.playSound(p.getLocation(), Sound.BLOCK_PISTON_EXTEND, 0.5F, 2.0F);

@@ -115,7 +115,7 @@ public class Camera extends JavaPlugin {
         }
 
         Utils.loadColors();
-        getCommand("takePicture").setExecutor(new CameraCommands());
+        getCommand("photo").setExecutor(new CameraCommands());
         registerListeners(new CameraClick(), new CameraPlace());
 
         if(config.getBoolean("settings.camera.recipe.enabled"))

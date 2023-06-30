@@ -13,7 +13,7 @@ import org.bukkit.map.MapView;
 public class Picture {
     private static HashMap<Player, Long> delayMap = new HashMap<>();
 
-    public static boolean takePicture(Player p) {
+    public static boolean photo(Player p) {
         Camera instance = Camera.getInstance();
         boolean messages = instance.getConfig().getBoolean("settings.messages.enabled");
         if(instance.getResourcePackManager().isLoaded()) {

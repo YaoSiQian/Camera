@@ -3,3 +3,6 @@ version: '${project.version}'
 main: cn.yaosiqian.camera.Camera
 authors: [YaoSiQian]
 description: Taking photos.
+commands:
+  photo:
+    description: take a picture
