@@ -30,8 +30,6 @@ import com.mojang.authlib.properties.Property;
 import cn.yaosiqian.camera.commands.CameraCommands;
 import cn.yaosiqian.camera.listeners.CameraClick;
 import cn.yaosiqian.camera.listeners.CameraPlace;
-import cn.yaosiqian.camera.listeners.PlayerJoin;
-import cn.yaosiqian.camera.listeners.PrepareItemCraft;
 
 public class Camera extends JavaPlugin {
 
@@ -41,6 +39,8 @@ public class Camera extends JavaPlugin {
     private File configFile;
     private FileConfiguration config;
 
+    public NamespacedKey key = new NamespacedKey(this, "camera");
+
     @Override
     public void onEnable() {
         instance = this;
@@ -48,11 +48,6 @@ public class Camera extends JavaPlugin {
         loadConfig();
 
         this.resourcePackManager.initialize();
-
-        // Resource pack manager test
-        File grassFile = this.resourcePackManager.getTextureByMaterial(Material.GRASS);
-        if(grassFile != null)
-            Bukkit.getLogger().info("Loaded grass texture " + grassFile.getName());
 
         File folder = new File(getDataFolder() + "/maps");
         File[] listOfFiles = folder.listFiles();
@@ -121,7 +116,7 @@ public class Camera extends JavaPlugin {
 
         Utils.loadColors();
         getCommand("takePicture").setExecutor(new CameraCommands());
-        registerListeners(new CameraClick(), new CameraPlace(), new PlayerJoin(), new PrepareItemCraft());
+        registerListeners(new CameraClick(), new CameraPlace());
 
         if(config.getBoolean("settings.camera.recipe.enabled"))
             addCameraRecipe();
@@ -131,6 +126,8 @@ public class Camera extends JavaPlugin {
     public void onDisable() {
         /* Disable all current async tasks */
         Bukkit.getScheduler().cancelTasks(this);
+        /* Disable recipe of camera */
+        Bukkit.removeRecipe(new NamespacedKey(this, "camera"));
     }
 
     private void registerListeners(Listener... listeners) {
@@ -146,9 +143,9 @@ public class Camera extends JavaPlugin {
         SkullMeta cameraMeta = (SkullMeta) camera.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), "");
         profile.getProperties().put("textures", new Property("textures",
-                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZiNWVlZTQwYzNkZDY2ODNjZWM4ZGQxYzZjM2ZjMWIxZjAxMzcxNzg2NjNkNzYxMDljZmUxMmVkN2JmMjc4ZSJ9fX0=="));
+                "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZiNWVlZTQwYzNkZDY2ODNjZWM4ZGQxYzZjM2ZjMWIxZjAxMzcxNzg2NjNkNzYxMDljZmUxMmVkN2JmMjc4ZSJ9fX0="));
         Field profileField = null;
-        cameraMeta.setDisplayName(ChatColor.DARK_BLUE + "Camera");
+        cameraMeta.setDisplayName(ChatColor.GOLD + "相机");
         try {
             profileField = cameraMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
@@ -156,9 +153,9 @@ public class Camera extends JavaPlugin {
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
         }
+        cameraMeta.setCustomModelData(14);
         camera.setItemMeta(cameraMeta);
 
-        NamespacedKey key = new NamespacedKey(this, "camera");
         ShapedRecipe recipe = new ShapedRecipe(key, camera);
 
         ArrayList<String> shapeArr = (ArrayList<String>) config.get("settings.camera.recipe.shape");
