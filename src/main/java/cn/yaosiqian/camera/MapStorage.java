@@ -32,7 +32,7 @@ public class MapStorage {
     }
 
     public static String serializeMapDataCompressed(byte[][] data) {
-        String outputString = "";
+        StringBuilder outputString = new StringBuilder();
         int count = 1;
         for(int i = 0; i < (128*128); i++) {
             int row =  i / 128;
@@ -50,17 +50,15 @@ public class MapStorage {
                 colnext = (i+1) % 128;
             }
 
-            outputString = outputString + data[row][column] + "_" + count + ",";
+            outputString.append(data[row][column]).append("_").append(count).append(",");
         }
-        return outputString;
+        return outputString.toString();
     }
 
     public static String serializeMapDataSimple(byte[][] data) {
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                byte color = data[i][j];
-
+        for (byte[] datum : data) {
+            for (byte color : datum) {
                 String colorString = String.format("%s", color);
                 builder.append(colorString).append("_").append(1).append(",");
             }

@@ -59,7 +59,7 @@ public class Camera extends JavaPlugin {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     String encodedData = br.readLine();
 
-                    MapView mapView = Bukkit.getMap(Integer.valueOf(mapId));
+                    MapView mapView = Bukkit.getMap(mapId);
 
                     mapView.setTrackingPosition(false);
                     for(MapRenderer renderer : mapView.getRenderers())
@@ -159,7 +159,7 @@ public class Camera extends JavaPlugin {
         ShapedRecipe recipe = new ShapedRecipe(key, camera);
 
         ArrayList<String> shapeArr = (ArrayList<String>) config.get("settings.camera.recipe.shape");
-        recipe.shape(shapeArr.toArray(new String[shapeArr.size()]));
+        recipe.shape(shapeArr.toArray(new String[0]));
 
         for(String ingredientKey : config.getConfigurationSection("settings.camera.recipe.ingredients").getKeys(false)){
             recipe.setIngredient(ingredientKey.charAt(0), Material.valueOf((String) config.get("settings.camera.recipe.ingredients." + ingredientKey)));

@@ -48,7 +48,7 @@ public class Renderer extends MapRenderer {
                 RayTraceResult liquidResult = player.getWorld().rayTraceBlocks(eyes, rayTraceVector, 256,
                         FluidCollisionMode.ALWAYS, false);
                 double[] dye = new double[] { 1, 1, 1 }; // values color is multiplied by
-                if (transparentWater == true) {
+                if (transparentWater) {
                     if (liquidResult != null) {
                         if (liquidResult.getHitBlock().getType().equals(Material.WATER))
                             dye = new double[] { .5, .5, 1 };
@@ -69,7 +69,7 @@ public class Renderer extends MapRenderer {
                     }
 
                     byte color;
-                    if (transparentWater == true) {
+                    if (transparentWater) {
                         color = Utils.colorFromType(result.getHitBlock(), dye);
                     } else {
                         color = Utils.colorFromType(liquidResult.getHitBlock(), dye);
